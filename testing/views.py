@@ -15,8 +15,6 @@ from reportlab.pdfbase import pdfmetrics
 from reportlab.pdfbase.ttfonts import TTFont
 from reportlab.lib import colors
 
-# Подключаем шрифт Arial
-pdfmetrics.registerFont(TTFont('Arial', 'C:\\Windows\\Fonts\\arial.ttf'))
 
 # Главная страница с тестами
 def test_list(request):
@@ -116,34 +114,34 @@ def download_certificate(request, test_id):
     p.rect(1.5 * cm, 1.5 * cm, width - 3 * cm, height - 3 * cm)
 
     # Заголовок
-    p.setFont("Arial", 26)
+    p.setFont("Helvetica", 26)
     p.setFillColor(colors.darkblue)
     p.drawCentredString(width / 2, height - 4 * cm, "СЕРТИФИКАТ")
 
     # Имя пользователя
-    p.setFont("Arial", 16)
+    p.setFont("Helvetica", 26)
     p.setFillColor(colors.black)
     full_name = request.user.get_full_name() or request.user.username
     p.drawCentredString(width / 2, height - 6 * cm, f"Выдан: {full_name}")
 
     # Название теста
-    p.setFont("Arial", 14)
+    p.setFont("Helvetica", 26)
     p.drawCentredString(width / 2, height - 8 * cm, "За успешное прохождение теста:")
-    p.setFont("Arial", 15)
+    p.setFont("Helvetica", 26)
     p.setFillColor(colors.darkgreen)
     p.drawCentredString(width / 2, height - 9 * cm, f"«{test.title}»")
 
     # Процент результата
-    p.setFont("Arial", 13)
+    p.setFont("Helvetica", 26)
     p.setFillColor(colors.black)
     p.drawCentredString(width / 2, height - 11 * cm, f"Результат: {result.percent}%")
 
     # Дата
-    p.setFont("Arial", 12)
+    p.setFont("Helvetica", 26)
     p.drawCentredString(width / 2, height - 13 * cm, f"Дата: {now().strftime('%d.%m.%Y')}")
 
     # Подпись
-    p.setFont("Arial", 10)
+    p.setFont("Helvetica", 26)
     p.drawRightString(width - 3 * cm, 3 * cm, "Подпись: ___________________")
 
     # Завершение страницы
@@ -219,3 +217,5 @@ def certificate_view(request, result_id):
     }
 
     return render(request, 'testing/certificate.html', context)
+
+     
