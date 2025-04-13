@@ -25,7 +25,12 @@ SECRET_KEY = 'django-insecure-wg)&y47*1cd1a$wb&p8mqiov^j5h^%d^3cb4_rj3cv6^=o0w&j
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['.onrender.com']
+DEBUG = False
+
+import os
+
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 
 # Application definition
