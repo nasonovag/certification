@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <h2>{{ test.title }}</h2>
+
+  {% if previous_result %}
+    <!-- Если результат уже есть -->
+    <p>Вы уже прошли этот тест:</p>
+    <p>Результат: {{ previous_result.score }} из {{ previous_result.total }} ({{ previous_result.percent }}%)</p>
+    <p>Статус:
+      {% if previous_result.passed %}
+        <span class="text-success">Сдано</span>
+      {% else %}
+        <span class="text-danger">Не сдано</span>
+      {% endif %}
+    </p>
+  {% else %}
+    <!-- Если тест не пройден -->
+    <form method="post" action="{% url 'submit_test' test.id %}">
+      {% csrf_token %}
+      {% for question in questions %}
+        <div>
+          <p><strong>{{ question.text }}</strong></p>
+          {% for choice in question.answers.all %}
+            <label>
+              <input type="radio" name="question_{{ question.id }}" value="{{ choice.id }}">
+              {{ choice.text }}
+            </label><br>
+          {% endfor %}
+        </div>
+        <hr>
+      {% endfor %}
+      <button type="submit" class="btn btn-primary">Отправить</button>
+    </form>
+  {% endif %}
+{% endblock %}

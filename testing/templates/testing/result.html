@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <h2>Результаты теста: {{ test.title }}</h2>
+  <p>Вы набрали {{ score }} из {{ total }} баллов.</p>
+  <p>Процент: {{ percent }}%</p>
+
+  {% if passed %}
+    <p style="color:green;"><strong>Поздравляем, вы прошли тест!</strong></p>
+    <a href="{% url 'download_certificate' test.id %}" class="btn btn-success mt-2">📄 Скачать сертификат</a>
+  {% else %}
+    <p style="color:red;"><strong>К сожалению, вы не прошли тест.</strong></p>
+  {% endif %}
+
+  <a href="{% url 'test_list' %}" class="btn btn-primary mt-3">⬅ Назад к списку тестов</a>
+{% endblock %}

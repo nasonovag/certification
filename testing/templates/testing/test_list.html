@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% block title %}Список тестов{% endblock %}
+
+{% block content %}
+  <div class="container mt-4">
+    <h1 class="mb-4">Доступные тесты</h1>
+
+    <div class="row">
+      {% for test in tests %}
+        <div class="col-md-4">
+          <div class="card mb-4">
+            <div class="card-body">
+              <h5 class="card-title">{{ test.title }}</h5>
+              <p class="card-text">{{ test.description|truncatewords:15 }}</p>
+              <a href="{% url 'take_test' test.id %}" class="btn btn-primary">Начать тест</a>
+            </div>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+{% endblock %}

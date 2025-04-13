@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+
+{% block title %}Профиль пользователя{% endblock %}
+
+{% block content %}
+<div class="container">
+  <h2>Профиль: {{ user.username }}</h2>
+  <p><strong>Дата регистрации:</strong> {{ user.profile.registration_date|date:"d.m.Y H:i" }}</p>
+
+  <h3>Результаты тестов:</h3>
+  {% if results %}
+    <table border="1" cellpadding="8" cellspacing="0">
+      <thead>
+        <tr>
+          <th>Тест</th>
+          <th>Баллы</th>
+          <th>Процент</th>
+          <th>Прошел</th>
+          <th>Дата прохождения</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for result in results %}
+        <tr>
+          <td>{{ result.test.title }}</td>
+          <td>{{ result.score }} / {{ result.total }}</td>
+          <td>{{ result.percent }}%</td>
+          <td>
+            {% if result.passed %}
+              ✅
+            {% else %}
+              ❌
+            {% endif %}
+          </td>
+          <td>  {% if result.passed %}
+            ✅ <a href="{% url 'download_certificate' result.test.id %}">Сертификат</a>  
+          {% else %}
+            ❌
+          {% endif %}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  {% else %}
+    <p>Вы пока не проходили тесты.</p>
+  {% endif %}
+
+  <br>
+  <a href="{% url 'test_list' %}">← Назад к тестам</a>
+</div>
+{% endblock %}

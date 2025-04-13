@@ -1,0 +1,136 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <title>Сертификат</title>
+  <style>
+    body {
+      font-family: 'Georgia', serif;
+      background: #f9f9f9;
+      padding: 50px;
+      text-align: center;
+    }
+
+    .certificate {
+      border: 10px solid #0047ab;
+      padding: 40px;
+      width: 850px;
+      margin: 0 auto;
+      background-color: #fff;
+      box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+    }
+
+    .logo {
+      max-width: 120px;
+      margin-bottom: 20px;
+    }
+
+    h1 {
+      font-size: 42px;
+      color: #0047ab;
+      margin-bottom: 10px;
+    }
+
+    .subheading {
+      font-size: 20px;
+      color: #333;
+      margin: 10px 0;
+    }
+
+    .recipient {
+      font-size: 28px;
+      font-weight: bold;
+      margin: 20px 0;
+    }
+
+    .test-title {
+      font-size: 24px;
+      font-style: italic;
+      color: #006400;
+      margin: 20px 0;
+    }
+
+    .result {
+      font-size: 18px;
+      color: #222;
+      margin-top: 20px;
+    }
+
+    .signature {
+      margin-top: 60px;
+      font-style: italic;
+      font-size: 16px;
+      color: #444;
+    }
+
+    .footer {
+      margin-top: 30px;
+      font-size: 14px;
+      color: #888;
+    }
+
+    .print-btn {
+      margin: 30px auto;
+      display: inline-block;
+      padding: 10px 20px;
+      background-color: #0047ab;
+      color: #fff;
+      font-size: 16px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+
+    .print-btn:hover {
+      background-color: #003080;
+    }
+
+    @media print {
+      .print-btn {
+        display: none;
+      }
+
+      body {
+        background: none;
+        padding: 0;
+      }
+
+      .certificate {
+        box-shadow: none;
+        border: none;
+        width: 100%;
+        margin: 0;
+      }
+
+      .footer {
+        display: none;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <button class="print-btn" onclick="window.print()">Скачать PDF / Распечатать</button>
+
+  <div class="certificate">
+    <img src="{% static 'images/logo.png' %}" alt="Логотип" class="logo">
+    <h1>СЕРТИФИКАТ</h1>
+
+    <div class="subheading">Выдан:</div>
+    <div class="recipient">{{ user.get_full_name|default:user.username }}</div>
+
+    <div class="subheading">За успешное прохождение теста:</div>
+    <div class="test-title">«{{ test.title }}»</div>
+
+    <div class="result">
+      Результат: {{ result.percent }}%<br>
+      Дата: {{ result.completed_at|date:"d.m.Y" }}
+    </div>
+
+    <div class="signature">HR-отдел | Сертификация</div>
+    <div class="footer">© {{ year }} Все права защищены</div>
+  </div>
+
+</body>
+</html>

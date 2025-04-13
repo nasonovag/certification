@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <h1>Тест "{{ test.title }}"</h1>
+
+  <p class="mb-3">Вы уже проходили этот тест.</p>
+
+  <p><strong>Результат:</strong> {{ result.score }} из {{ result.total }} ({{ result.percent|floatformat:2 }}%)</p>
+
+  <p>
+    <strong>Статус:</strong>
+    {% if result.passed %}
+      <span class="text-success">Сдано</span>
+    {% else %}
+      <span class="text-danger">Не сдано</span>
+    {% endif %}
+  </p>
+
+  {% if not result.passed %}
+    <hr>
+    <form action="{% url 'take_test' test.id %}" method="get">
+      <button type="submit" class="btn btn-primary mt-2">Пройти снова</button>
+    </form>
+  {% endif %}
+{% endblock %}
