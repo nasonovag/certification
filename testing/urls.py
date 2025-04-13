@@ -3,6 +3,7 @@ from django.contrib.auth import views as auth_views
 from . import views
 from django.urls import path
 from .views import certificate_view
+from .views import download_certificate
 
 urlpatterns = [
     path('', views.test_list, name='test_list'),
@@ -18,4 +19,5 @@ urlpatterns = [
 
     path('signup/', views.signup_view, name='signup'),
     path('certificate/<int:result_id>/', certificate_view, name='certificate'),
+    path('certificate/download/<int:test_id>/', download_certificate, name='download_certificate'),
 ]

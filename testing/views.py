@@ -84,7 +84,7 @@ def submit_test(request, test_id):
 
     # ✅ Если прошел тест — показываем сертификат
     if passed:
-        return redirect('certificate', result_id=result.id)
+        return redirect('download_certificate', test_id=test.id)
 
     # ❌ Если не прошел — обычный результат
     return render(request, 'testing/result.html', {
@@ -99,7 +99,7 @@ def submit_test(request, test_id):
 @login_required
 def download_certificate(request, test_id):
     test = get_object_or_404(Test, pk=test_id)
-    result = get_object_or_404(Result, user=request.user, test=test)
+    result = get_object_or_404(Result, test=test, user=request.user)
 
     if not result.passed:
         return HttpResponse("Сертификат доступен только при успешном прохождении теста.")
@@ -114,7 +114,7 @@ def download_certificate(request, test_id):
     p.rect(1.5 * cm, 1.5 * cm, width - 3 * cm, height - 3 * cm)
 
     # Заголовок
-    p.setFont("Helvetica", 26)
+    p.setFont("Helvetica-Bold", 26)
     p.setFillColor(colors.darkblue)
     p.drawCentredString(width / 2, height - 4 * cm, "СЕРТИФИКАТ")
 
@@ -127,21 +127,19 @@ def download_certificate(request, test_id):
     # Название теста
     p.setFont("Helvetica", 26)
     p.drawCentredString(width / 2, height - 8 * cm, "За успешное прохождение теста:")
-    p.setFont("Helvetica", 26)
+    p.setFont("Helvetica-Bold", 26)
     p.setFillColor(colors.darkgreen)
     p.drawCentredString(width / 2, height - 9 * cm, f"«{test.title}»")
 
     # Процент результата
     p.setFont("Helvetica", 26)
     p.setFillColor(colors.black)
-    p.drawCentredString(width / 2, height - 11 * cm, f"Результат: {result.percent}%")
+    p.drawCentredString(width / 2, height - 11 * cm, f"Результат: {result.percent:.2f}%")
 
     # Дата
-    p.setFont("Helvetica", 26)
     p.drawCentredString(width / 2, height - 13 * cm, f"Дата: {now().strftime('%d.%m.%Y')}")
 
     # Подпись
-    p.setFont("Helvetica", 26)
     p.drawRightString(width - 3 * cm, 3 * cm, "Подпись: ___________________")
 
     # Завершение страницы
